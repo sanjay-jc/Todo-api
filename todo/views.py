@@ -24,6 +24,10 @@ from .serializers import (
 )
 
 
+from .tasks import (
+    send_email_task
+)
+
 
 class List_todo(APIView):
     
@@ -146,3 +150,35 @@ class Update_todo(APIView):
                 'message': serializer.errors,
                 'data': None
             }, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class Update_task_status(APIView):
+    def post(self,request,*args,**kwargs):
+        try:
+           
+            todo = Todo_model.objects.get(slug_field = request.data.get('slug'))
+            todo.status = not todo.status
+            todo.save()
+            print(todo.created_by.get_email(),'<<<<,')
+            send_email_task.delay(todo.created_by.get_user_name(),todo.created_by.get_email(),f'{todo.title} changed to {"Completed" if todo.status else "Pending"}')
+            return Response({
+                'status': 1,
+                'message': f'Status of todo changed successfully',
+                'data': None
+            }, status=status.HTTP_200_OK)
+        
+        except Todo_model.DoesNotExist:
+            logger.error(f"Todo does not exist ")
+            return Response({
+                'status': 0,
+                'message': 'Todo does not exist',
+                'data': None
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        except Exception as e:
+            logger.error(f"Error occured in delete-todo: {str(e)}")
+            return Response({
+                'status': 0,
+                'message': str(e),
+                'data': None
+            }, status=status.HTTP_404_NOT_FOUND)

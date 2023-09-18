@@ -1,0 +1,3 @@
+Hello {{name|safe}}
+This mail is to inform you that the status of "{{review|safe}}"
+Thank you!!

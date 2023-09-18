@@ -22,6 +22,12 @@ class Custom_user(AbstractUser):
             return self.first_name
         else:
             return self.email
+        
+    def get_email(self):
+        if self.email:
+            return self.email
+        else:
+            return None
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
