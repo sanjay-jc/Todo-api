@@ -28,16 +28,21 @@ from .tasks import (
     send_email_task
 )
 
-
-class List_todo(APIView):
+from .paginations import (
+    Custom_pagination_response,
+    )
+class List_todo(APIView,Custom_pagination_response):
     
     '''  shows the todo of the login user, if not todo is found return a message '''
     def get(self,request,*args,**kwargs):
         try:
             todos = Todo_model.objects.filter(created_by = request.user)
             if todos:
-                serializer = Todo_list_serializer(instance=todos,many=True)
-                return Response({"status":1,'message':"success","data":serializer.data},status=status.HTTP_200_OK)
+                page = self.paginate_queryset(todos,request)
+                serializer = Todo_list_serializer(instance=page,many=True)
+                
+                return self.get_paginated_response(serializer.data)
+
             else:
                 return Response({"status":0,'message':"No todos found for this user","data":None},status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
