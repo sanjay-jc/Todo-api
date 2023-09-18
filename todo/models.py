@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from uuid import uuid4
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ValidationError
 # local imports 
 from .utils import (
     Base_model,
@@ -25,3 +26,5 @@ class Todo_model(Base_model):
     class Meta:
         ordering = ['-created_on']
         verbose_name_plural = "Todos"
+
+

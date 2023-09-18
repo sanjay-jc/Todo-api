@@ -55,7 +55,7 @@ class Create_todo(APIView):
     def post(self,request,*args,**kwargs):
         
         try:
-            serializer = Create_todo_serializer(data = request.dat)
+            serializer = Create_todo_serializer(data = request.data)
             if serializer.is_valid():
                 serializer.save(created_by = request.user)
                 return Response({
@@ -91,7 +91,7 @@ class Delete_todo(APIView):
                 if todo:
                     is_verified = is_user_owner(todo.created_by,request.user)
                     if is_verified:
-                        # todo.delete()
+                        todo.delete()
                         return Response({
                             'status':1,
                             'message':"Todo deleted successfully",
@@ -102,7 +102,7 @@ class Delete_todo(APIView):
                             'status':0,
                             'message':"You are not authorized to perform this operation",
                             'data':None
-                        },status=status.HTTP_401_UNAUTHORIZED)
+                        },status=status.HTTP_403_FORBIDDEN)
                 else:
                     return Response({
                         'status':0,
@@ -134,38 +134,52 @@ class Update_todo(APIView):
                 'message': "Todo does not exist",
                 'data': None
             }, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = Create_todo_serializer(todo, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'status': 1,
-                'message': "Todo updated successfully",
-                'data': serializer.data
-            }, status=status.HTTP_200_OK)
+        is_verified = is_user_owner(todo.created_by,request.user)
+        if is_verified:
+            serializer = Create_todo_serializer(todo, data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'status': 1,
+                    'message': "Todo updated successfully",
+                    'data': serializer.data
+                }, status=status.HTTP_200_OK)
+            else:
+                logger.error(f"Error occured in delete-todo: {serializer.errors}")
+                return Response({
+                    'status': 0,
+                    'message': serializer.errors,
+                    'data': None
+                }, status=status.HTTP_400_BAD_REQUEST)
         else:
-            logger.error(f"Error occured in delete-todo: {serializer.errors}")
             return Response({
-                'status': 0,
-                'message': serializer.errors,
-                'data': None
-            }, status=status.HTTP_400_BAD_REQUEST)
+                            'status':0,
+                            'message':"You are not authorized to perform this operation",
+                            'data':None
+                        },status=status.HTTP_403_FORBIDDEN)
         
 
 class Update_task_status(APIView):
     def post(self,request,*args,**kwargs):
         try:
-           
             todo = Todo_model.objects.get(slug_field = request.data.get('slug'))
-            todo.status = not todo.status
-            todo.save()
-            print(todo.created_by.get_email(),'<<<<,')
-            send_email_task.delay(todo.created_by.get_user_name(),todo.created_by.get_email(),f'{todo.title} changed to {"Completed" if todo.status else "Pending"}')
-            return Response({
-                'status': 1,
-                'message': f'Status of todo changed successfully',
-                'data': None
-            }, status=status.HTTP_200_OK)
+            is_verified = is_user_owner(todo.created_by,request.user)
+            if is_verified:
+                todo.status = not todo.status
+                todo.save()
+                print(todo.created_by.get_email(),'<<<<,')
+                send_email_task.delay(todo.created_by.get_user_name(),todo.created_by.get_email(),f'{todo.title} changed to {"Completed" if todo.status else "Pending"}')
+                return Response({
+                    'status': 1,
+                    'message': f'Status of todo changed successfully',
+                    'data': None
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                            'status':0,
+                            'message':"You are not authorized to perform this operation",
+                            'data':None
+                        },status=status.HTTP_403_FORBIDDEN)
         
         except Todo_model.DoesNotExist:
             logger.error(f"Todo does not exist ")

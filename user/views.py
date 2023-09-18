@@ -51,7 +51,7 @@ class LoginAPIView(APIView):
     def post(self, request):
         try:
             serializer = Userlogin_serializer(data=request.data)
-            is_valid = serializer.is_valid(raise_exception=True)
+            is_valid = serializer.is_valid()
             if is_valid:
                 user = serializer.validated_data['user']
                 refresh = RefreshToken.for_user(user)
@@ -63,12 +63,12 @@ class LoginAPIView(APIView):
                     'access': str(refresh.access_token),
                 }, status=status.HTTP_200_OK)
             
-            else:
-                return Response({
+            return Response({
                     'status':0,
                     "message":serializer.errors,
                     'data':None   
                 },status=status.HTTP_400_BAD_REQUEST)
+        
         except Exception as e:
             logger.error(f"An error occured in the login : {str(e)}")
             return Response({
@@ -77,9 +77,3 @@ class LoginAPIView(APIView):
                 'data':None
             },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-# class Logger(APIView):
-#     # permission_classes = (IsAuthenticated,)
-#     def get(self,request):
-
-#         data = Todo_model.objects.filter(created_by = self.request.user).values()
-#         return Response({'hello':data})
