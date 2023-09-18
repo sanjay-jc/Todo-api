@@ -1,0 +1,19 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+#environments
+.venv
+venv/
+
+# mypy 
+.mypy_cache/
+
+**/migrations/**
+!**/migrations/__init__.py
+
+**/__pycache__
