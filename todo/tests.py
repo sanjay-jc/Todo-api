@@ -125,7 +125,7 @@ class Test_delet_todo(APITestCase):
 
     def test_delete_own_todo(self):
         # Include the slug in request.data for deletion
-        delete_data = {'todo_slug': self.todo.slug_field}
+        delete_data = {'slug': self.todo.slug_field}
 
         response = self.client.delete(self.delete_url, data=delete_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)        
@@ -134,7 +134,7 @@ class Test_delet_todo(APITestCase):
     def test_prevent_delete_other_user_todo(self):
         self.other_user_todo = Todo_model.objects.create(created_by = self.user,**self.todo_data)
         
-        delete_data = {'todo_slug': self.other_user_todo.slug_field}
+        delete_data = {'slug': self.other_user_todo.slug_field}
 
         self.client.force_authenticate(user=self.other_user)
 

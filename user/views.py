@@ -55,7 +55,6 @@ class LoginAPIView(APIView):
             if is_valid:
                 user = serializer.validated_data['user']
                 refresh = RefreshToken.for_user(user)
-                print(request.user)
                 return Response({
                     "status": 1,
                     "message": "Login Successful",

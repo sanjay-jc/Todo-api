@@ -1,6 +1,6 @@
 from django.views import View
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,generics
 from rest_framework.views import APIView
 import logging
 
@@ -52,7 +52,6 @@ class List_todo(APIView,Custom_pagination_response):
                 "message":str(e),
                 'data':None
             },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
 
 
 class Create_todo(APIView):
@@ -89,7 +88,7 @@ class Delete_todo(APIView):
     ''' delete a todo with given slug '''
     def delete(self,request,*args,**kwargs):
         try:
-            todo_slug  = request.data.get('todo_slug')
+            todo_slug  = request.data.get('slug')
             if todo_slug:
                 todo = Todo_model.objects.filter(slug_field = todo_slug).first()
                 

@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "3aca135d-9194-4c51-be7b-b2469946e495",
+		"name": "Todo-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"{{new_user}}\",\n    \"password\":\"{{new_user_password}}\",\n    \"first_name\":\"{{first_name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{register_url}}",
+					"host": [
+						"{{register_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"{{email1}}\",\n    \"password\":\"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{login_url}}",
+					"host": [
+						"{{login_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token Refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n\n\"refresh\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5NTE4Nzk1OSwiaWF0IjoxNjk1MTAxNTU5LCJqdGkiOiIwZGM0ZWRiOTU5NDc0NGQ0YjNiMTI2MjdhNDhlYWNlNiIsInVzZXJfaWQiOjd9.cClDwenP_QhvAsjnqGEp9cd2SSgpb_84byZSE8w1Ee4\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{token_refresh}}",
+					"host": [
+						"{{token_refresh}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"Complete the todo api endpoints\",\n    \"description\":\"Complete the todo apis with clear documentation and postman integrations \"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_url}}/create-todo",
+					"host": [
+						"{{todo_url}}"
+					],
+					"path": [
+						"create-todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List-todo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_url}}/list-todo",
+					"host": [
+						"{{todo_url}}"
+					],
+					"path": [
+						"list-todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"slug\":\"complete-the-todo-api-endpointsd0ce2732-4f08-462d-9\",\n    \"title\":\"This is the and upate to the existing endpoints\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_url}}/update-todo",
+					"host": [
+						"{{todo_url}}"
+					],
+					"path": [
+						"update-todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"slug\":\"complete-the-todo-api-endpointsd0ce2732-4f08-462d-9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_url}}/delete-todo",
+					"host": [
+						"{{todo_url}}"
+					],
+					"path": [
+						"delete-todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Todo Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1MTE3Mjk5LCJpYXQiOjE2OTUwOTkyOTksImp0aSI6ImRjMWU2NWE5ZjM5ZjRiMDZiM2ZlMDMxMDA0YmI3OWQ5IiwidXNlcl9pZCI6N30.zh3W4hkhdVdMaV1ZqprXhaLapWQCl4sg8An4N7x3hDA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"slug\":\"4th-todo-in-the-list-ksdjfl-kajsd-kjasdlk-jalksb80815b6-bc94-4bd3-a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_url}}/update-todo-task",
+					"host": [
+						"{{todo_url}}"
+					],
+					"path": [
+						"update-todo-task"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
