@@ -83,6 +83,10 @@ To run the TaskIt locally, follow these steps:
 ### Start celery flower (use another instance of the terminal to run celery):
 
     celery -A core flower
+    
+### run celery flower to see the tasks:
+
+    http://localhost:5555/
 
 ### Start Redis (use another instance of the terminal to run celery):
 
