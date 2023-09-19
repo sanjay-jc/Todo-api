@@ -105,8 +105,22 @@ List todos created by the user
 - http://localhost/todo/list-todo
 - method: get
 - default pagesize is 10
+- ### query parameters
+    - sort_by : latest,oldest
+        ```sh
+         http://localhost/todo/list-todo?sort=latest
+         http://localhost/todo/list-todo?sort=oldest
+        ```
+    - filter: status: filter by the status of todo- True,False
+         ```sh
+         http://localhost/todo/list-todo?sort=latest&status=True
+         http://localhost/todo/list-todo?sort=oldest&status=False
+        ```
+    - filter: title: filter by title of the todo
+        ```sh
+         http://localhost/todo/list-todo?sort=latest&status=True&title=This is the
+        ```
 - Request format
-
   ```sh
   {
 
@@ -115,7 +129,7 @@ List todos created by the user
 
 - Response format
   ```sh
-  {{
+    {
      "next": next_page_url,
      "prev": previous_page_url,
      "status": 1,
@@ -126,6 +140,7 @@ List todos created by the user
                  "description": "Complete the todo apis with clear documentation and postman ",
                  "user": "sanjay@email.com",
                  "status": true,
+                 "created_on":"2023-09-17T02:56:08.368653Z",
                  "slug_field": "complete-the-todo-api-endpoints9e05da13-910e-428a-a"
              },
              {
@@ -133,8 +148,10 @@ List todos created by the user
                  "description": "hello world",
                  "user": "sanjay@email.com",
                  "status": false,
+                 "created_on":"2023-09-17T02:56:08.368653Z",
                  "slug_field": "4th-todo-in-the-list-80815b6-bc94-4bd3-a"
              },
+    }
   ```
 
 ### Update Todo

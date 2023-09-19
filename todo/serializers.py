@@ -13,7 +13,7 @@ class Todo_list_serializer(ModelSerializer):
     class Meta:
         model = Todo_model
         
-        fields = ['title','description','user','status','slug_field']
+        fields = ['title','description','user','status',"created_on",'slug_field']
 
     def get_user(self,obj):
         user_name=obj.created_by.get_user_name()

@@ -2,6 +2,7 @@ from django.views import View
 from rest_framework.response import Response
 from rest_framework import status,generics
 from rest_framework.views import APIView
+from django_filters import rest_framework as filters
 import logging
 
 
@@ -31,14 +32,51 @@ from .tasks import (
 from .paginations import (
     Custom_pagination_response,
     )
+
+
+from .filters import (
+    TodoFilter
+)
+# class List_todo(APIView,Custom_pagination_response):
+    
+#     '''  shows the todo of the login user, if not todo is found return a message '''
+#     def get(self,request,*args,**kwargs):
+#         try:
+#             todos = Todo_model.objects.filter(created_by = request.user)
+
+#             if todos:
+#                 page = self.paginate_queryset(todos,request)
+#                 serializer = Todo_list_serializer(instance=page,many=True)
+                
+#                 return self.get_paginated_response(serializer.data)
+
+#             else:
+#                 return Response({"status":0,'message':"No todos found for this user","data":None},status=status.HTTP_404_NOT_FOUND)
+#         except Exception as e:
+#             logger.error(f"Error occured in list-todo: {str(e)}")
+#             return Response({
+#                 'status':0,
+#                 "message":str(e),
+#                 'data':None
+#             },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
 class List_todo(APIView,Custom_pagination_response):
     
     '''  shows the todo of the login user, if not todo is found return a message '''
     def get(self,request,*args,**kwargs):
         try:
             todos = Todo_model.objects.filter(created_by = request.user)
+            todo_filter = TodoFilter(request.GET,queryset=todos)
+            filtered_queryset = todo_filter.qs
+            sort_by = request.GET.get('sort',None)
+            if sort_by:
+                if sort_by.lower() == 'newest':
+                        filtered_queryset = filtered_queryset.order_by('-created_on')
+                elif sort_by.lower() == "oldest":
+                        filtered_queryset = filtered_queryset.order_by('created_on')
             if todos:
-                page = self.paginate_queryset(todos,request)
+                page = self.paginate_queryset(filtered_queryset,request)
                 serializer = Todo_list_serializer(instance=page,many=True)
                 
                 return self.get_paginated_response(serializer.data)
