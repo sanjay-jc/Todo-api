@@ -9,7 +9,8 @@ Running test for the whole application
 ```sh
 python manage.py test
 ```
-Running test for the whole specific apps 
+Running test for the  apps
+
 run test for user app 
 ```sh
 python manage.py test user
