@@ -108,4 +108,10 @@ To run the TaskIt locally, follow these steps:
 
 - [API Documentation](https://github.com/sanjayjc97/Todo-api/blob/master/Api%20documentation.md)
 
-#### endpoint in postman > snippet-api.json file.
+## Postman Environment
+
+- [Postman Environment](https://github.com/sanjayjc97/Todo-api/blob/master/Todo%20environments.postman_environment.json)
+
+## Postman Collections
+
+- [Postman Collections](https://github.com/sanjayjc97/Todo-api/blob/master/Todo-api.postman_collection.json)
